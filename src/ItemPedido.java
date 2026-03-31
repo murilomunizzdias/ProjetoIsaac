@@ -6,11 +6,13 @@ public class ItemPedido {
     public ItemPedido(Produto produto, int quantidade) {
         this.produto = produto;
         this.quantidade = quantidade;
+        this.subtotal = produto.preco * quantidade;
     }
 
-    public void calcularSubtotal() {
-        if (this.produto != null) {
-            this.subtotal = this.produto.preco * this.quantidade;
-        }
+    public double getSubtotal() { return subtotal; }
+
+    @Override
+    public String toString() {
+        return quantidade + "x " + produto.nome + " (Subtotal: R$ " + subtotal + ")";
     }
 }

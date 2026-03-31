@@ -1,5 +1,3 @@
-import java.util.Scanner;
-
 public class Produto {
     int idProduto;
     String nome;
@@ -16,17 +14,18 @@ public class Produto {
         this.estoque = estoque;
     }
 
-    public void atualizarEstoque(int quantidade) {
-        this.estoque += quantidade;
-        System.out.println("Estoque do produto '" + this.nome + "' atualizado. Nova quantidade: " + this.estoque);
+    public String getNome() { 
+        return nome; 
+    }
+    
+    public double getPreco() { 
+        return preco; 
     }
 
     public void exibirProduto() {
-        System.out.println("Ficha do Produto: ");
-        System.out.println("ID: " + this.idProduto);
-        System.out.println("Nome: " + this.nome);
-        System.out.println("Categoria: " + this.categoria);
-        System.out.println("Preço: R$ " + this.preco);
-        System.out.println("Estoque: " + this.estoque + " unidades");
+        System.out.println("ID: " + idProduto + " | " + nome + " | R$ " + preco);
     }
+
+    @Override
+    public String toString() { return nome; }
 }
