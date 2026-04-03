@@ -1,27 +1,27 @@
 class ListaPedidos<P> {
     
     private static class Node<P> {
-        P dado;
-        Node<P> proximo;
+        P data;
+        Node<P> next;
 
-        Node(P dado) {
-            this.dado = dado;
-            this.proximo = null;
+        Node(P data) {
+            this.data = data;
+            this.next = null;
         }
     }
 
     private Node<P> inicio;
 
-    public void adicionar(P dado) {
-        Node<P> novo = new Node<>(dado);
+    public void adicionar(P data) {
+        Node<P> novo = new Node<>(data);
         if (inicio == null) {
             inicio = novo;
         } else {
             Node<P> aux = inicio;
-            while (aux.proximo != null) {
-                aux = aux.proximo;
+            while (aux.next != null) {
+                aux = aux.next;
             }
-            aux.proximo = novo;
+            aux.next = novo;
         }
     }
 
@@ -32,26 +32,26 @@ class ListaPedidos<P> {
             return;
         }
         while (aux != null) {
-            System.out.println(" - " + aux.dado.toString());
-            aux = aux.proximo;
+            System.out.println(" - " + aux.data.toString());
+            aux = aux.next;
         }
     }
 
-    public void remover(P dado) {
-        if (inicio == null || dado == null) return;
+    public void remover(P data) {
+        if (inicio == null || data == null) return;
 
-        if (inicio.dado.equals(dado)) {
-            inicio = inicio.proximo;
+        if (inicio.data.equals(data)) {
+            inicio = inicio.next;
             return;
         }
 
         Node<P> aux = inicio;
-        while (aux.proximo != null && !aux.proximo.dado.equals(dado)) {
-            aux = aux.proximo;
+        while (aux.next != null && !aux.next.data.equals(data)) {
+            aux = aux.next;
         }
 
-        if (aux.proximo != null) {
-            aux.proximo = aux.proximo.proximo;
+        if (aux.next != null) {
+            aux.next = aux.next.next;
         }
     }
 
@@ -59,10 +59,10 @@ class ListaPedidos<P> {
         if (nome == null) return null;
         Node<P> aux = inicio;
         while (aux != null) {
-            if (aux.dado.toString().toLowerCase().contains(nome.toLowerCase())) {
-                return aux.dado;
+            if (aux.data.toString().toLowerCase().contains(nome.toLowerCase())) {
+                return aux.data;
             }
-            aux = aux.proximo;
+            aux = aux.next;
         }
         return null;
     }

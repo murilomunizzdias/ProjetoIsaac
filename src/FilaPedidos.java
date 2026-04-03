@@ -1,11 +1,11 @@
 public class FilaPedidos {
     private static class Node {
         Pedido pedido;
-        Node proximo;
+        Node next;
 
         Node(Pedido pedido) {
             this.pedido = pedido;
-            this.proximo = null;
+            this.next = null;
         }
     }
 
@@ -26,7 +26,7 @@ public class FilaPedidos {
             frente = novoNode;
             fim = novoNode;
         } else {
-            fim.proximo = novoNode;
+            fim.next = novoNode;
             fim = novoNode;
         }
         tamanho++;
@@ -40,7 +40,7 @@ public class FilaPedidos {
         }
 
         Pedido pedidoSaindo = frente.pedido;
-        frente = frente.proximo;
+        frente = frente.next;
 
         if (frente == null) {
             fim = null;
@@ -55,7 +55,7 @@ public class FilaPedidos {
         return frente == null;
     }
 
-    public void verProximoDaFila() {
+    public void vernextDaFila() {
         if (estaVazia()) {
             System.out.println("Nenhum pedido em espera.");
         } else {
