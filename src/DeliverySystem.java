@@ -69,8 +69,7 @@ public class DeliverySystem {
                     criarPedidoFluxo(scanner);
                     break;
                 case 5:
-                    System.out.println("Funcionalidade de adicionar itens. Implemente a busca de pedido!");
-
+                    adicionarItemFluxo(scanner);
                     break;
                 case 6:
                     enviarParaCozinhaFluxo(scanner);
@@ -99,6 +98,59 @@ public class DeliverySystem {
     }
 
 
+    private static void adicionarItemFluxo(Scanner scanner) {
+        pedidosAtivos.exibirTodos();
+        System.out.print("Digite o ID do pedido: ");
+        if (!scanner.hasNextInt()) {
+            System.out.println("ID inválido!");
+            scanner.nextLine();
+            return;
+        }
+        int idPedido = scanner.nextInt();
+        scanner.nextLine();
+
+        Pedido pedido = pedidosAtivos.buscarPorId(idPedido);
+        if (pedido == null) {
+            System.out.println("Pedido #" + idPedido + " não encontrado nos ativos.");
+            return;
+        }
+
+        System.out.println("\n--- Produtos Disponíveis ---");
+        catalogoProdutos.exibirTodos();
+
+        System.out.print("Digite o nome do produto: ");
+        String nomeProduto = scanner.nextLine();
+
+        Produto produto = catalogoProdutos.buscarPorNome(nomeProduto);
+        if (produto == null) {
+            System.out.println("Produto não encontrado no catálogo.");
+            return;
+        }
+
+        System.out.print("Quantidade: ");
+        if (!scanner.hasNextInt()) {
+            System.out.println("Quantidade inválida!");
+            scanner.nextLine();
+            return;
+        }
+        int quantidade = scanner.nextInt();
+        scanner.nextLine();
+
+        if (quantidade <= 0) {
+            System.out.println("Quantidade deve ser maior que zero.");
+            return;
+        }
+
+        if (produto.estoque < quantidade) {
+            System.out.println("Estoque insuficiente! Disponível: " + produto.estoque);
+            return;
+        }
+
+        produto.estoque -= quantidade;
+        pedido.adicionarItem(new ItemPedido(produto, quantidade));
+        pedido.exibirResumo();
+    }
+
     private static void criarPedidoFluxo(Scanner scanner) {
         System.out.print("Digite o nome do cliente para o pedido: ");
         String nomeBusca = scanner.nextLine();
@@ -115,6 +167,7 @@ public class DeliverySystem {
     }
 
     private static void enviarParaCozinhaFluxo(Scanner scanner) {
+        pedidosAtivos.exibirTodos();
         System.out.print("Digite o ID do pedido que deseja enviar para a cozinha: ");
         if (!scanner.hasNextInt()) {
             System.out.println("ID inválido!");
@@ -124,8 +177,18 @@ public class DeliverySystem {
         int idPedido = scanner.nextInt();
         scanner.nextLine();
 
-        System.out.println("Para concluir o envio, remova o pedido dos ativos e adicione na Fila.");
-        pedidosAtivos.removerPorId(idPedido);
+        Pedido pedido = pedidosAtivos.buscarPorId(idPedido);
+        if (pedido == null) {
+            System.out.println("Pedido #" + idPedido + " não encontrado nos ativos.");
+            return;
+        }
 
+        if (pedido.getListaItens().estaVazia()) {
+            System.out.println("Não é possível enviar um pedido sem itens!");
+            return;
+        }
+
+        pedidosAtivos.removerPorId(idPedido);
+        pedido.finalizarPedido(filaPreparo);
     }
 }

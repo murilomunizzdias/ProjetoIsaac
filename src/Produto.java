@@ -14,12 +14,12 @@ public class Produto {
         this.estoque = estoque;
     }
 
-    public String getNome() { 
-        return nome; 
+    public String getNome() {
+        return nome;
     }
-    
-    public double getPreco() { 
-        return preco; 
+
+    public double getPreco() {
+        return preco;
     }
 
     public void exibirProduto() {
@@ -27,5 +27,7 @@ public class Produto {
     }
 
     @Override
-    public String toString() { return nome; }
+    public String toString() {
+        return "ID: " + idProduto + " | " + nome + " | R$ " + String.format("%.2f", preco) + " | Estoque: " + estoque;
+    }
 }

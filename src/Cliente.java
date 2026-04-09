@@ -18,7 +18,7 @@ public class Cliente {
         this.telefone = input.nextLine();
         System.out.println("Insira o endereco do cliente: ");
         this.endereco = input.nextLine();
-        
+
         System.out.println("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
         System.out.println("Cliente: " + this.nome + " cadastrado com sucesso! ");
         System.out.println("Id: " + this.idCliente);
@@ -57,4 +57,9 @@ public class Cliente {
 
     public String getNome() { return nome; }
     public String getEndereco() { return endereco; }
+
+    @Override
+    public String toString() {
+        return "ID: " + idCliente + " | Nome: " + nome + " | Tel: " + telefone + " | End: " + endereco;
+    }
 }
