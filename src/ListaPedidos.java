@@ -1,5 +1,5 @@
-class ListaPedidos<P> {
-    
+public class ListaPedidos<P> {
+
     private static class Node<P> {
         P data;
         Node<P> next;
@@ -37,12 +37,12 @@ class ListaPedidos<P> {
         }
     }
 
-    public void remover(P data) {
-        if (inicio == null || data == null) return;
+    public boolean remover(P data) {
+        if (inicio == null || data == null) return false;
 
         if (inicio.data.equals(data)) {
             inicio = inicio.next;
-            return;
+            return true;
         }
 
         Node<P> aux = inicio;
@@ -52,16 +52,34 @@ class ListaPedidos<P> {
 
         if (aux.next != null) {
             aux.next = aux.next.next;
+            return true;
         }
+
+        return false;
     }
 
     public P buscarPorNome(String nome) {
         if (nome == null) return null;
         Node<P> aux = inicio;
         while (aux != null) {
-            if (aux.data.toString().toLowerCase().contains(nome.toLowerCase())) {
+            // Compara o toString() inteiro em lowercase para evitar falsos positivos
+            // A comparação é feita apenas no início do toString() para ser mais precisa
+            String dados = aux.data.toString().toLowerCase();
+            String busca = nome.toLowerCase().trim();
+            // Verifica se algum "campo" do toString contém exatamente a busca
+            if (dados.contains("nome: " + busca) || dados.startsWith(busca) || dados.equals(busca)) {
                 return aux.data;
             }
+            aux = aux.next;
+        }
+        return null;
+    }
+
+    // Retorna o primeiro elemento que passa no teste (usado para busca por ID, etc.)
+    public P buscarPorCondicao(java.util.function.Predicate<P> condicao) {
+        Node<P> aux = inicio;
+        while (aux != null) {
+            if (condicao.test(aux.data)) return aux.data;
             aux = aux.next;
         }
         return null;

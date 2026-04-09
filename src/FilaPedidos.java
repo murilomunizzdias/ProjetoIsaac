@@ -71,11 +71,12 @@ public class FilaPedidos {
         return frente == null;
     }
 
-    public void vernextDaFila() {
+    public void exibirProximo() {
         if (estaVazia()) {
             System.out.println("Nenhum pedido em espera.");
         } else {
-            System.out.println("Próximo a ser preparado: Pedido #" + frente.pedido.getIdPedido());
+            System.out.println("Próximo a ser preparado: Pedido #" + frente.pedido.getIdPedido()
+                    + " — Cliente: " + frente.pedido.cliente);
         }
     }
 }

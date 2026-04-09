@@ -37,7 +37,7 @@ public class PedidosAtivos {
         }
         tamanho++;
     }
-    
+
     public void removerPorId(int idPedido) {
         if (estaVazia()) return;
 
@@ -57,10 +57,12 @@ public class PedidosAtivos {
             tail = null;
         } else if (atual == head) {
             head = head.next;
-            head.prev = null;
+            if (head != null) {
+                head.prev = null;
+            }
         } else if (atual == tail) {
             tail = tail.prev;
-            tail    .next = null;
+            tail.next = null;
         } else {
             atual.prev.next = atual.next;
             atual.next.prev = atual.prev;
@@ -151,4 +153,3 @@ public class PedidosAtivos {
         return null;
     }
 }
-

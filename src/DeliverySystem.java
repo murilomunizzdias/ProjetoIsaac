@@ -54,6 +54,8 @@ public class DeliverySystem {
                     listaClientes.exibirTodos();
                     break;
                 case 3:
+                    System.out.println("\n--- Produtos já cadastrados ---");
+                    catalogoProdutos.exibirTodos();
                     System.out.print("Nome do Produto: ");
                     String nomeProduto = scanner.nextLine();
                     System.out.print("Preço: ");
@@ -127,10 +129,16 @@ public class DeliverySystem {
         System.out.println("\n--- Produtos Disponíveis ---");
         catalogoProdutos.exibirTodos();
 
-        System.out.print("Digite o nome do produto: ");
-        String nomeProduto = scanner.nextLine();
+        System.out.print("Digite o ID do produto: ");
+        if (!scanner.hasNextInt()) {
+            System.out.println("ID inválido!");
+            scanner.nextLine();
+            return;
+        }
+        int idProduto = scanner.nextInt();
+        scanner.nextLine();
 
-        Produto produto = catalogoProdutos.buscarPorNome(nomeProduto);
+        Produto produto = catalogoProdutos.buscarPorCondicao(p -> p.idProduto == idProduto);
         if (produto == null) {
             System.out.println("Produto não encontrado no catálogo.");
             return;
@@ -165,7 +173,7 @@ public class DeliverySystem {
     }
 
     private static void prepararProximoPedido() {
-        filaPreparo.vernextDaFila();
+        filaPreparo.exibirProximo();
     }
 
     private static void criarPedidoFluxo(Scanner scanner) {

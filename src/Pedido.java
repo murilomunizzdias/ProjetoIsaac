@@ -29,7 +29,9 @@ public class Pedido {
     }
 
     public double calcularTotal() {
-        // O valorTotal é mantido sempre atualizado por adicionarItem() e removerItem()
+
+        double total = 0.0;
+
         return this.valorTotal;
     }
 
@@ -40,9 +42,15 @@ public class Pedido {
     }
 
     public void removerItem(ItemPedido item) {
-        if (item != null) {
-            listaItens.remover(item);
+        if (item == null) return;
+        boolean removido = listaItens.remover(item);
+        if (removido) {
             this.valorTotal -= item.getSubtotal();
+
+            if (this.valorTotal < 0) this.valorTotal = 0.0;
+            System.out.println("Item removido com sucesso!");
+        } else {
+            System.out.println("Item não encontrado no pedido.");
         }
     }
 
