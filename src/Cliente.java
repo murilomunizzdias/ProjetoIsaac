@@ -57,4 +57,8 @@ public class Cliente {
 
     public String getNome() { return nome; }
     public String getEndereco() { return endereco; }
+    @Override
+    public String toString() {
+        return "ID: " + idCliente + " | " + nome + " | " + telefone;
+    }
 }

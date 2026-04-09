@@ -69,11 +69,49 @@ public class DeliverySystem {
                     criarPedidoFluxo(scanner);
                     break;
                 case 5:
-                    System.out.println("Funcionalidade de adicionar itens. Implemente a busca de pedido!");
+                    System.out.print("Digite o ID do pedido para adicionar itens: ");
+                    if (!scanner.hasNextInt()) {
+                        System.out.println("ID inválido!");
+                        scanner.nextLine();
+                        break;
+                    }
+                    int idBusca = scanner.nextInt();
+                    scanner.nextLine();
+
+                    Pedido pedidoAlvo = pedidosAtivos.buscarPorId(idBusca);
+                    if (pedidoAlvo == null) {
+                        System.out.println("Pedido #" + idBusca + " não encontrado nos ativos.");
+                        break;
+                    }
+
+                    System.out.println("\n--- Produtos Disponíveis ---");
+                    catalogoProdutos.exibirTodos();
+
+                    System.out.print("Digite o nome do produto: ");
+                    String nomeProd = scanner.nextLine();
+                    Produto produtoEscolhido = catalogoProdutos.buscarPorNome(nomeProd);
+                    if (produtoEscolhido == null) {
+                        System.out.println("Produto não encontrado.");
+                        break;
+                    }
+
+                    System.out.print("Quantidade: ");
+                    if (!scanner.hasNextInt()) {
+                        System.out.println("Quantidade inválida!");
+                        scanner.nextLine();
+                        break;
+                    }
+                    int qtd = scanner.nextInt();
+                    scanner.nextLine();
+
+                    ItemPedido novoItem = new ItemPedido(produtoEscolhido, qtd);
+                    pedidoAlvo.adicionarItem(novoItem);
+                    pedidoAlvo.exibirResumo();
+
 
                     break;
                 case 6:
-                    enviarParaCozinhaFluxo(scanner);
+                   enviarParaCozinhaFluxo(scanner);
                     break;
                 case 7:
                     Pedido pedidoPronto = filaPreparo.desenfileirar();
@@ -124,8 +162,14 @@ public class DeliverySystem {
         int idPedido = scanner.nextInt();
         scanner.nextLine();
 
-        System.out.println("Para concluir o envio, remova o pedido dos ativos e adicione na Fila.");
+        Pedido pedidoEnvio = pedidosAtivos.buscarPorId(idPedido);
+        if (pedidoEnvio == null) {
+            System.out.println("Pedido #" + idPedido + " não encontrado nos ativos.");
+            return;
+        }
         pedidosAtivos.removerPorId(idPedido);
+        pedidoEnvio.finalizarPedido(filaPreparo);
+
 
     }
 }
