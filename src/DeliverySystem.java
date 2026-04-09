@@ -17,20 +17,22 @@ public class DeliverySystem {
         catalogoProdutos.adicionar(new Produto("Hamburguer Artesanal", 35.0, "Lanches", 50));
         catalogoProdutos.adicionar(new Produto("Refrigerante 2L", 12.0, "Bebidas", 100));
 
-        while (opcao != 10) {
+        while (opcao != 12) {
             System.out.println("\n==================================================");
             System.out.println("           SISTEMA DE DELIVERY (MENU)             ");
             System.out.println("==================================================");
-            System.out.println("[1] Cadastrar Cliente");
-            System.out.println("[2] Listar Clientes");
-            System.out.println("[3] Cadastrar Produto");
-            System.out.println("[4] Criar Novo Pedido");
-            System.out.println("[5] Adicionar Item ao Pedido");
-            System.out.println("[6] Enviar Pedido para a Cozinha (Fila)");
-            System.out.println("[7] Preparar Próximo Pedido (Cozinha -> Histórico)");
-            System.out.println("[8] Exibir Histórico de Pedidos (Pilha)");
-            System.out.println("[9] Navegar entre Pedidos Ativos (Lista Dupla)");
-            System.out.println("[10] Sair");
+            System.out.println("[1]  Cadastrar Cliente");
+            System.out.println("[2]  Listar Clientes");
+            System.out.println("[3]  Cadastrar Produto");
+            System.out.println("[4]  Criar Novo Pedido");
+            System.out.println("[5]  Adicionar Item ao Pedido");
+            System.out.println("[6]  Enviar Pedido para a Cozinha (Fila)");
+            System.out.println("[7]  Exibir Pedidos em Preparo");
+            System.out.println("[8]  Preparar Próximo Pedido");
+            System.out.println("[9]  Finalizar Pedido (Cozinha -> Histórico)");
+            System.out.println("[10] Exibir Histórico de Pedidos (Pilha)");
+            System.out.println("[11] Navegar entre Pedidos Ativos (Lista Dupla)");
+            System.out.println("[12] Sair");
             System.out.print("Escolha uma opção: ");
 
             if (scanner.hasNextInt()) {
@@ -75,19 +77,26 @@ public class DeliverySystem {
                     enviarParaCozinhaFluxo(scanner);
                     break;
                 case 7:
+                    exibirPedidosEmPreparo();
+                    break;
+                case 8:
+                    prepararProximoPedido();
+                    break;
+                case 9:
                     Pedido pedidoPronto = filaPreparo.desenfileirar();
                     if (pedidoPronto != null) {
                         pedidoPronto.status = "Finalizado/Entregue";
                         historicoEntregas.empilhar(pedidoPronto);
+                        System.out.println("Pedido #" + pedidoPronto.getIdPedido() + " finalizado e registrado no histórico!");
                     }
                     break;
-                case 8:
+                case 10:
                     historicoEntregas.exibirHistorico();
                     break;
-                case 9:
+                case 11:
                     pedidosAtivos.navegar(scanner);
                     break;
-                case 10:
+                case 12:
                     System.out.println("Encerrando o sistema...");
                     break;
                 default:
@@ -146,9 +155,17 @@ public class DeliverySystem {
             return;
         }
 
-        produto.estoque -= quantidade;
+        produto.atualizarEstoque(-quantidade);
         pedido.adicionarItem(new ItemPedido(produto, quantidade));
         pedido.exibirResumo();
+    }
+
+    private static void exibirPedidosEmPreparo() {
+        filaPreparo.exibirFila();
+    }
+
+    private static void prepararProximoPedido() {
+        filaPreparo.vernextDaFila();
     }
 
     private static void criarPedidoFluxo(Scanner scanner) {

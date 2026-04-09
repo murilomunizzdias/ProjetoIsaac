@@ -9,8 +9,8 @@ public class FilaPedidos {
         }
     }
 
-    private Node frente; 
-    private Node fim;     
+    private Node frente;
+    private Node fim;
     private int tamanho;
 
     public FilaPedidos() {
@@ -21,7 +21,7 @@ public class FilaPedidos {
 
     public void enfileirar(Pedido novoPedido) {
         Node novoNode = new Node(novoPedido);
-        
+
         if (estaVazia()) {
             frente = novoNode;
             fim = novoNode;
@@ -45,10 +45,26 @@ public class FilaPedidos {
         if (frente == null) {
             fim = null;
         }
-        
+
         tamanho--;
         System.out.println("Pedido #" + pedidoSaindo.getIdPedido() + " pronto para entrega!");
         return pedidoSaindo;
+    }
+
+    public void exibirFila() {
+        if (estaVazia()) {
+            System.out.println("Nenhum pedido em preparo no momento.");
+            return;
+        }
+        System.out.println("-=-=-=-=-=- PEDIDOS EM PREPARO (ordem de chegada) -=-=-=-=-=-");
+        Node aux = frente;
+        int posicao = 1;
+        while (aux != null) {
+            System.out.println(posicao + "º - " + aux.pedido.toString() + " | Status: " + aux.pedido.status);
+            aux = aux.next;
+            posicao++;
+        }
+        System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
     }
 
     public boolean estaVazia() {

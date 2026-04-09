@@ -14,6 +14,11 @@ public class Produto {
         this.estoque = estoque;
     }
 
+    public void atualizarEstoque(int quantidade) {
+        this.estoque += quantidade;
+        System.out.println("Estoque de '" + nome + "' atualizado para: " + this.estoque);
+    }
+
     public String getNome() {
         return nome;
     }

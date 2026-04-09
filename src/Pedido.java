@@ -15,7 +15,7 @@ public class Pedido {
         this.valorTotal = 0.0;
     }
 
-     public ListaPedidos<ItemPedido> getListaItens() {
+    public ListaPedidos<ItemPedido> getListaItens() {
         return listaItens;
     }
 
@@ -26,6 +26,11 @@ public class Pedido {
 
     public int getIdPedido() {
         return idPedido;
+    }
+
+    public double calcularTotal() {
+        // O valorTotal é mantido sempre atualizado por adicionarItem() e removerItem()
+        return this.valorTotal;
     }
 
     public void adicionarItem(ItemPedido item) {
